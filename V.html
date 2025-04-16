@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ViandeChezVous</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 0; background: #f8f8f8; }
+    header { background: #a30000; color: white; padding: 1em; text-align: center; }
+    .product { background: white; margin: 1em; padding: 1em; border-radius: 10px; box-shadow: 0 0 5px #ccc; }
+    .product img { width: 100%; max-width: 300px; height: auto; border-radius: 10px; }
+    .product h3 { margin-top: 0.5em; }
+    .btn { background: #a30000; color: white; border: none; padding: 0.5em 1em; margin-top: 0.5em; border-radius: 5px; cursor: pointer; }
+    #cart { background: white; padding: 1em; margin: 1em; border-radius: 10px; box-shadow: 0 0 5px #ccc; }
+    .footer { text-align: center; margin: 2em 0; }
+    input[type='number'] { width: 60px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>ViandeChezVous</h1>
+  <p>Viandes bien fraîches livrées chez vous</p>
+</header>
+
+<div class="product">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Ground_beef.jpg" alt="Viande hachée" />
+  <h3>Viande hachée - 3€/kg</h3>
+  <p>Viande bien fraîche, parfaite pour vos plats maison.</p>
+  Quantité (kg): <input type="number" id="hachée" min="0" value="0">
+</div>
+
+<div class="product">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Bavette.jpg" alt="Bavette" />
+  <h3>Bavette - 2€/kg</h3>
+  <p>Viande bien fraîche, tendre et savoureuse.</p>
+  Quantité (kg): <input type="number" id="bavette" min="0" value="0">
+</div>
+
+<div class="product">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Escalope_de_veau_pan%C3%A9e.jpg" alt="Escalope" />
+  <h3>Escalope - 1.5€/kg</h3>
+  <p>Viande bien fraîche, idéale pour toutes vos recettes.</p>
+  Quantité (kg): <input type="number" id="escalope" min="0" value="0">
+</div>
+
+<div class="footer">
+  <button class="btn" onclick="afficherPanier()">Voir le panier</button>
+</div>
+
+<div id="cart" style="display:none;">
+  <h2>Panier</h2>
+  <div id="details"></div>
+  <h3 id="total"></h3>
+  <button class="btn" onclick="commander()">Commander via WhatsApp</button>
+</div>
+
+<script>
+  function afficherPanier() {
+    let hachee = parseFloat(document.getElementById('hachée').value || 0);
+    let bavette = parseFloat(document.getElementById('bavette').value || 0);
+    let escalope = parseFloat(document.getElementById('escalope').value || 0);
+
+    let prixHachee = 3, prixBavette = 2, prixEscalope = 1.5;
+
+    let total = hachee*prixHachee + bavette*prixBavette + escalope*prixEscalope;
+
+    let details = `
+      Viande hachée : ${hachee} kg = ${hachee*prixHachee}€<br>
+      Bavette : ${bavette} kg = ${bavette*prixBavette}€<br>
+      Escalope : ${escalope} kg = ${escalope*prixEscalope}€<br>
+    `;
+
+    document.getElementById('details').innerHTML = details;
+    document.getElementById('total').innerText = "Total : " + total.toFixed(2) + " €";
+    document.getElementById('cart').style.display = 'block';
+  }
+
+  function commander() {
+    let hachee = parseFloat(document.getElementById('hachée').value || 0);
+    let bavette = parseFloat(document.getElementById('bavette').value || 0);
+    let escalope = parseFloat(document.getElementById('escalope').value || 0);
+
+    let message = `Bonjour, je souhaite commander :
+- Viande hachée : ${hachee} kg
+- Bavette : ${bavette} kg
+- Escalope : ${escalope} kg`;
+
+    let phone = "0764166500";
+    let url = "https://wa.me/33" + phone.slice(1) + "?text=" + encodeURIComponent(message);
+    window.open(url, "_blank");
+  }
+</script>
+
+</body>
+</html>
